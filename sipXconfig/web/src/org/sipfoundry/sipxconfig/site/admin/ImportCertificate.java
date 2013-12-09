@@ -46,6 +46,7 @@ import org.sipfoundry.sipxconfig.setting.Setting;
 import org.sipfoundry.sipxconfig.site.common.IntegerPropertySelectionModel;
 
 public abstract class ImportCertificate extends BaseComponent implements PageBeginRenderListener {
+
     public static final Integer UPLOAD = new Integer(1);
 
     public static final Integer TEXT = new Integer(2);
