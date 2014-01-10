@@ -39,6 +39,7 @@ import org.sipfoundry.sipxconfig.common.Closure;
 import org.sipfoundry.sipxconfig.common.CoreContext;
 import org.sipfoundry.sipxconfig.common.DaoUtils;
 import org.sipfoundry.sipxconfig.common.MongoGenerationFinishedEvent;
+import org.sipfoundry.sipxconfig.common.MongoIndexProvider;
 import org.sipfoundry.sipxconfig.common.Replicable;
 import org.sipfoundry.sipxconfig.common.ReplicableProvider;
 import org.sipfoundry.sipxconfig.common.SipxHibernateDaoSupport;
@@ -177,7 +178,7 @@ public class ReplicationManagerImpl extends SipxHibernateDaoSupport implements R
     private class ReplicationWorker implements Callable<Void> {
         private final int m_startIndex;
         private final int m_page;
-        private Closure<User> m_closure = m_userClosure;
+        private final Closure<User> m_closure = m_userClosure;
 
         public ReplicationWorker(int index, int pageSize, Object arg) {
             m_startIndex = index;
@@ -687,7 +688,13 @@ public class ReplicationManagerImpl extends SipxHibernateDaoSupport implements R
         }
     }
 
-    public DBCollection getDbCollection() {
+    /**
+     * This method creates the collection if it does not exist. Upon creation it will create the
+     * indexes. It will also call other providers to create their own indexes.
+     *
+     * @return
+     */
+    private DBCollection getDbCollection() {
         DBCollection entity = m_imdb.getDb().getCollection(MongoConstants.ENTITY_COLLECTION);
         DBObject index1 = new BasicDBObject();
         index1.put(MongoConstants.ALIASES + "." + MongoConstants.ALIAS_ID, 1);
@@ -717,6 +724,11 @@ public class ReplicationManagerImpl extends SipxHibernateDaoSupport implements R
         entity.ensureIndex(index7);
         entity.ensureIndex(index8);
         entity.ensureIndex(index9);
+
+        Map<String, MongoIndexProvider> beanMap = m_beanFactory.getBeansOfType(MongoIndexProvider.class);
+        for (MongoIndexProvider provider : beanMap.values()) {
+            provider.ensureIndexes();
+        }
 
         return entity;
     }
