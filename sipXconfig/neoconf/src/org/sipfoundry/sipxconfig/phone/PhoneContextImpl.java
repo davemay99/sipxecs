@@ -187,6 +187,11 @@ public class PhoneContextImpl extends SipxHibernateDaoSupport implements BeanFac
     }
 
     @Override
+    public List<Phone> loadPhonesByPage(int firstRow, int pageSize) {
+        return loadBeansByPage(Phone.class, firstRow, pageSize);
+    }
+    
+    @Override
     public List<Phone> loadPhones() {
         return getHibernateTemplate().loadAll(Phone.class);
     }

@@ -98,4 +98,6 @@ public interface ReplicationManager {
      * @return
      */
     public boolean testDatabaseReady();
+
+    void replicatePhoneGroup(Group group);
 }

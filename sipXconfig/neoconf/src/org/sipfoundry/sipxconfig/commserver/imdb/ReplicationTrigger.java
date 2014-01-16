@@ -18,9 +18,11 @@ import org.sipfoundry.sipxconfig.branch.Branch;
 import org.sipfoundry.sipxconfig.cfgmgt.ConfigManager;
 import org.sipfoundry.sipxconfig.common.Replicable;
 import org.sipfoundry.sipxconfig.common.SipxHibernateDaoSupport;
+import org.sipfoundry.sipxconfig.common.User;
 import org.sipfoundry.sipxconfig.common.event.DaoEventListener;
 import org.sipfoundry.sipxconfig.feature.FeatureManager;
 import org.sipfoundry.sipxconfig.im.ImManager;
+import org.sipfoundry.sipxconfig.phone.Phone;
 import org.sipfoundry.sipxconfig.rls.Rls;
 import org.sipfoundry.sipxconfig.setting.Group;
 
@@ -34,7 +36,6 @@ import org.sipfoundry.sipxconfig.setting.Group;
 //should exist with the project.
 public class ReplicationTrigger extends SipxHibernateDaoSupport implements DaoEventListener {
     protected static final Log LOG = LogFactory.getLog(ReplicationTrigger.class);
-    private static final String USER_GROUP_RESOURCE = "user";
 
     private ReplicationManager m_replicationManager;
     private ExecutorService m_executorService;
@@ -138,9 +139,11 @@ public class ReplicationTrigger extends SipxHibernateDaoSupport implements DaoEv
      * @param group
      */
     private void generateGroup(Group group) {
-        if (USER_GROUP_RESOURCE.equals(group.getResource())) {
+        if (User.GROUP_RESOURCE_ID.equals(group.getResource())) {
             m_replicationManager.replicateGroup(group);
             activateGroup();
+        } if (Phone.GROUP_RESOURCE_ID.equals(group.getResource())) {
+            m_replicationManager.replicatePhoneGroup(group);
         }
     }
 
@@ -150,7 +153,7 @@ public class ReplicationTrigger extends SipxHibernateDaoSupport implements DaoEv
      * @param group
      */
     private void deleteGroup(Group group) {
-        if (USER_GROUP_RESOURCE.equals(group.getResource())) {
+        if (User.GROUP_RESOURCE_ID.equals(group.getResource())) {
             m_replicationManager.deleteGroup(group);
             activateGroup();
         }

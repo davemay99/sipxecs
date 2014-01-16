@@ -27,6 +27,8 @@ import org.hibernate.criterion.Restrictions;
 import org.sipfoundry.sipxconfig.branch.Branch;
 import org.sipfoundry.sipxconfig.common.BeanWithId.IdToBean;
 import org.sipfoundry.sipxconfig.common.event.DaoEventPublisher;
+import org.sipfoundry.sipxconfig.phone.Phone;
+import org.sipfoundry.sipxconfig.phone.PhoneContext;
 import org.sipfoundry.sipxconfig.setting.BeanWithGroups;
 import org.sipfoundry.sipxconfig.setting.Group;
 import org.springframework.orm.hibernate3.HibernateCallback;
@@ -275,6 +277,20 @@ public final class DaoUtils {
         }
     }
 
+    public static void forAllPhoneGroupMembersDo(PhoneContext phoneContext, Group group,
+            Closure<Phone> closure, int start, int pageSize) {
+        final String[] order = new String[] {
+                "id"
+            };
+        if (start >= phoneContext.getPhonesInGroupCount(group.getId())) {
+            return;
+        }
+        Collection<Phone> phones = phoneContext.loadPhonesByPage(group.getId(), start, pageSize, order, true);
+        for (Phone phone : phones) {
+            closure.execute(phone);
+        }
+    }
+    
     public static void forAllBranchMembersDo(CoreContext coreContext, Branch branch,
             Closure<User> closure, int start, int pageSize) {
         if (start >= coreContext.getBranchMembersCount(branch.getId())) {
@@ -283,6 +299,16 @@ public final class DaoUtils {
         Collection<Integer> users = coreContext.getBranchMembersByPage(branch.getId(), start, pageSize);
         for (int id : users) {
             closure.execute(coreContext.loadUser(id));
+        }
+    }
+    
+    public static void forAllPhonesDo(PhoneContext phoneContext, Closure<Phone> closure, int start, int pageSize) {
+        if (start >= phoneContext.getPhonesCount()) {
+            return;
+        }
+        List<Phone> phones = phoneContext.loadPhonesByPage(start, pageSize);
+        for (Phone phone : phones) {
+            closure.execute(phone);
         }
     }
 }
