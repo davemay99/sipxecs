@@ -16,16 +16,16 @@
  */
 package org.sipfoundry.sipxconfig.web.plugin;
 
+import org.apache.tapestry.BaseComponent;
 import org.apache.tapestry.annotations.Bean;
 import org.apache.tapestry.annotations.InjectObject;
 import org.apache.tapestry.event.PageBeginRenderListener;
 import org.apache.tapestry.event.PageEvent;
-import org.sipfoundry.sipxconfig.components.PageWithCallback;
 import org.sipfoundry.sipxconfig.components.SipxValidationDelegate;
 import org.sipfoundry.sipxconfig.openfire.Openfire;
 import org.sipfoundry.sipxconfig.openfire.OpenfireSettings;
 
-public abstract class InstantMessagingPage extends PageWithCallback implements PageBeginRenderListener {
+public abstract class InstantMessagingPage extends BaseComponent implements PageBeginRenderListener {
     public static final String PAGE = "plugin/InstantMessagingPage";
 
     @Bean

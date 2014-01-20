@@ -83,8 +83,7 @@ public class OpenfireImpl implements ImManager, FeatureProvider, AddressProvider
     }
 
     @Override
-    public Collection<Address> getAvailableAddresses(AddressManager manager, AddressType type,
-            Location whoIsAsking) {
+    public Collection<Address> getAvailableAddresses(AddressManager manager, AddressType type, Location whoIsAsking) {
         if (!ADDRESSES.contains(type)) {
             return null;
         }
@@ -101,7 +100,8 @@ public class OpenfireImpl implements ImManager, FeatureProvider, AddressProvider
             if (type.equals(XMPP_ADDRESS) || type.equals(XMPP_SECURE_ADDRESS)) {
                 address = new Address(type, location.getAddress());
             } else if (type.equals(XMPP_FEDERATION_ADDRESS)) {
-                address = new Address(XMPP_FEDERATION_ADDRESS, location.getAddress(), settings.getXmppFederationPort());
+                address = new Address(XMPP_FEDERATION_ADDRESS, location.getAddress(),
+                    settings.getXmppFederationPort());
             } else if (type.equals(XMLRPC_ADDRESS)) {
                 address = new Address(XMLRPC_ADDRESS, location.getAddress(), settings.getConsolePort());
             } else if (type.equals(XMLRPC_VCARD_ADDRESS)) {
@@ -109,10 +109,10 @@ public class OpenfireImpl implements ImManager, FeatureProvider, AddressProvider
             } else if (type.equals(WATCHER_ADDRESS)) {
                 address = new Address(WATCHER_ADDRESS, location.getAddress(), settings.getWatcherPort());
             } else if (type.equals(XMPP_FILE_TRANSFER_PROXY_ADDRESS)) {
-                address = new Address(XMPP_FILE_TRANSFER_PROXY_ADDRESS, location.getAddress(), settings.getFileTransferProxyPort());
+                address = new Address(XMPP_FILE_TRANSFER_PROXY_ADDRESS, location.getAddress(),
+                    settings.getFileTransferProxyPort());
             } else if (type.equals(XMPP_ADMIN_CONSOLE_ADDRESS)) {
-                address = new Address(XMPP_ADMIN_CONSOLE_ADDRESS, location.getAddress(),
-                    settings.getConsolePort());
+                address = new Address(XMPP_ADMIN_CONSOLE_ADDRESS, location.getAddress(), settings.getConsolePort());
             } else if (type.equals(XMPP_ADMIN_CONSOLE_SECURE_ADDRESS)) {
                 address = new Address(XMPP_ADMIN_CONSOLE_SECURE_ADDRESS, location.getAddress(),
                     settings.getConsoleSecurePort());
@@ -120,7 +120,7 @@ public class OpenfireImpl implements ImManager, FeatureProvider, AddressProvider
                 address = new Address(XMPP_BOSH_ADDRESS, location.getAddress(), settings.getHttpBindingPort());
             } else if (type.equals(XMPP_BOSH_SECURE_ADDRESS)) {
                 address = new Address(XMPP_BOSH_SECURE_ADDRESS, location.getAddress(),
-                        settings.getHttpBindingSecurePort());
+                    settings.getHttpBindingSecurePort());
             }
             addresses.add(address);
         }
@@ -140,7 +140,7 @@ public class OpenfireImpl implements ImManager, FeatureProvider, AddressProvider
     }
 
     @Override
-	public void touchXmppUpdate(Collection<Location> locations) {
+    public void touchXmppUpdate(Collection<Location> locations) {
         RunRequest touchXmppUpdate = new RunRequest("Signal XMPP configuration change", locations);
         touchXmppUpdate.setBundles("touch_xmpp_update");
         m_configManager.run(touchXmppUpdate);
@@ -159,7 +159,7 @@ public class OpenfireImpl implements ImManager, FeatureProvider, AddressProvider
             return null;
         }
         return Collections.singleton(ProcessDefinition.sysvByRegex("openfire",
-                ".*\\s-Dprovider.properties.className=org.jivesoftware.util.FilePropertiesProvider\\s.*"));
+            ".*\\s-Dprovider.properties.className=org.jivesoftware.util.FilePropertiesProvider\\s.*"));
     }
 
     @Override
@@ -218,19 +218,14 @@ public class OpenfireImpl implements ImManager, FeatureProvider, AddressProvider
         String serverProto = "_xmpp-server._tcp";
         String clientProto = "_xmpp-client._tcp";
         ResourceRecords[] records = new ResourceRecords[] {
-            new ResourceRecords(serverProto, root, false),
-            new ResourceRecords(clientProto, root, false),
-            new ResourceRecords(serverProto, conference, false),
-            new ResourceRecords(clientProto, conference, false)
+            new ResourceRecords(serverProto, root, false), new ResourceRecords(clientProto, root, false),
+            new ResourceRecords(serverProto, conference, false), new ResourceRecords(clientProto, conference, false)
         };
         OpenfireSettings settings = getSettings();
         int clientPort = OpenfireSettings.XMPP_PORT;
         int federationPort = settings.getXmppFederationPort();
         int[] ports = new int[] {
-                federationPort,
-                clientPort,
-                federationPort,
-                clientPort
+            federationPort, clientPort, federationPort, clientPort
         };
         for (int i = 0; i < records.length; i++) {
             for (Location l : locations) {

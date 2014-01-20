@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="layout.css">
+<link rel="stylesheet" href="colors.css">
+</head>
+<div id="leftNav">
+  <!-- Devmode only -->
+</div>
+<body jwcid="$content$">
+  <div jwcid="@common/Border" restricted="false" borderTitle="ognl:borderTitle">
+    <div class="help">
+      <span jwcid="@Insert" raw="true" value="message:rooms.help">Room Help</span>
+    </div>
+    <!-- Cut from here -->
+    <div rooms id="rooms" ng-app>
+      <style type="text/css">
+        [ng-cloak] {
+          display: none !important;
+        }
+      </style>
+      <h2>
+        <span key="title">Multi-user Chat Rooms</span>
+      </h2>
+      <p id="userMessage"></p>
+      <ul class="component-links" style="padding-bottom: 5px;">
+        <li>
+          <a id="add-room-link" href="#/add"><span key="room.add">Add Chat Room</span></a>
+        </li>
+      </ul>
+      <table class="component">
+        <thead>
+          <tr>
+            <th style="width: 20%"><span key="roomName">Name</span></th>
+            <th><span key="roomDescr">Description</span></th>
+            <th><span key="roomSubj">Subject</span></th>
+            <th align="center" style="width: 10%"><span key="public">Public Room</span></th>
+            <th align="center" style="width: 10%"><span key="moderated">Moderated</span></th>
+            <th align="center" style="width: 10%"><span key="membersOnly">Members Only</span></th>
+            <th align="center" style="width: 10%"/>
+          </tr>
+        </thead>
+        <tbody id="roomsTable" ng-cloak>
+          <tr ng-repeat="room in roomCtrl.rooms">
+            <td><a href="#/room/{{room.id}}/edit">{{room.name}}</a></td>
+            <td>{{room.description}}</td>
+            <td>{{room.subject}}</td>
+            <td align="center"><input type="checkbox" disabled='true' ng-checked='room.public'/></td>
+            <td align="center"><input type="checkbox" disabled='true' ng-checked='room.moderated'/></td>
+            <td align="center"><input type="checkbox" disabled='true' ng-checked='room.membersOnly'/></td>
+            <td align="center"><button>Remove</button></td>
+          </tr>
+        </tbody>
+      </table>
+      <section>
+        <ng-view></ng-view>
+      </section>
+    </div>
+    <span id="rc" style="display: none"></span>
+    <script jwcid="@common/DartCode" src="packages/browser/dart.js"></script>
+    <!-- to here -->
+    <script jwcid="@common/DartCode" type="application/dart" src="chat_room_mgmt.dart"></script>
+  </div>
+</body>
+</html>

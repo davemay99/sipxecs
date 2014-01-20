@@ -1,0 +1,78 @@
+<div class="option-panel">
+  <div class="option-line">
+    <label for="name" class="option-label" key="edit.name">Name</label>
+    <input id="name" class="option-field" type="text" ng-model="rEdit.room.name"/>
+    <span key="mandatoryName" class="error" ng-class="rEdit.nameErrorClass()">You must enter a room name</span>
+  </div>
+  <div class="option-line">
+    <label for="descr" class="option-label" key="edit.description">Description</label>
+    <input id="descr" class="option-field" type="text" ng-model="rEdit.room.description"/>
+  </div>
+  <div class="option-line">
+    <label for="subj" class="option-label" key="edit.subject">Subject</label>
+    <input id="subj" class="option-field" type="text" ng-model="rEdit.room.subject"/>
+  </div>
+  <div class="option-line">
+    <label for="owner" class="option-label" key="edit.owner">Owner</label>
+    <span id="owner" class="option-link"><a href="#" ng-click="rEdit.showOwnerClicked()">({{rEdit.ownerName()}})</a></span>
+    <span key="mandatoryOwner" class="error" ng-class="rEdit.ownerErrorClass()">You must select a room owner</span>
+  </div>
+  <div class="option-line">
+    <label for="password" class="option-label" key="edit.password">Password</label>
+    <input id="password" class="option-field" type="password" ng-model="rEdit.room.password"/>
+  </div>
+  <div class="option-line">
+    <label for="maxUsers" class="option-label" key="edit.maxUsers">Maximum occupants</label>
+    <input id="maxUsers" class="option-number-field" type="number" ng-model="rEdit.room.maxUsers"/>
+  </div>
+  <div class="option-line">
+    <label for="private" class="option-label" key="edit.public">Public room</label>
+    <input id="private" type="checkbox" ng-model="rEdit.room.public" ng-checked="rEdit.room.public"/>
+  </div>
+  <div class="option-line">
+    <label for="mod" class="option-label" key="edit.moderated">Moderated</label>
+    <input id="mod" type="checkbox" ng-model="rEdit.room.moderated" ng-checked="rEdit.room.moderated"/>
+  </div>
+  <div class="option-line">
+    <label for="mo" class="option-label" key="edit.membersOnly">Members only</label>
+    <input id="mo" type="checkbox" ng-model="rEdit.room.membersOnly" ng-checked="rEdit.room.membersOnly"/>
+  </div>
+  <div class="option-line">
+    <label for="members" class="option-label" key="edit.members">Members</label>
+    <span id="members" class="option-field"><a href="#" ng-click="rEdit.showMembersClicked()">({{rEdit.membersNames()}})</a></span>
+  </div>
+  <div class="option-line">
+    <label for="changeSubj" class="option-label" key="edit.changeSubject">Allow participants to change subject</label>
+    <input id="changeSubj" type="checkbox" ng-model="rEdit.room.canChangeSubject" ng-checked="rEdit.room.canChangeSubject"/>
+  </div>
+  <div class="option-line">
+    <label for="canInvite" class="option-label" key="edit.canInvite">Can occupants invite others?</label>
+    <input id="canInvite" type="checkbox" ng-model="rEdit.room.canInvite" ng-checked="rEdit.room.canInvite"/>
+  </div>
+  <div class="option-line">
+    <label for="canDiscoverJid" class="option-label" key="edit.canDiscoverJid">Can occupants' JIDs be displayed?</label>
+    <input id="canDiscoverJid" type="checkbox" ng-model="rEdit.room.canDiscoverJid" ng-checked="rEdit.room.canDiscoverJid"/>
+  </div>
+  <div class="option-line">
+    <label for="log" class="option-label" key="edit.log">Log messages?</label>
+    <input id="log" type="checkbox" ng-model="rEdit.room.logMessages" ng-checked="rEdit.room.logMessages"/>
+  </div>
+  <div class="option-line">
+    <label for="broadcast" class="option-label" key="edit.broadcast">Roles to broadcast</label>
+    <select id="broadcast" multiple size="3" class="option-field" style="border: none;">
+      <option value='1' ng-selected="rEdit.room.broadcastModerator" ng-model="rEdit.room.broadcastModerator">Moderator</option>
+      <option value='2' ng-selected="rEdit.room.broadcastParticipant" ng-model="rEdit.room.broadcastParticipant">Participant</option>
+      <option value='4' ng-selected="rEdit.room.broadcastVisitor" ng-model="rEdit.room.broadcastVisitor">Visitor</option>
+    </select>
+  </div>
+</div>
+<div class="option-panel">
+  <user-picker selected="rEdit.room.owner" show="rEdit.showOwnerPicker" single-selection="true"></user-picker>
+</div>
+<div class="option-panel">
+  <user-picker selected="rEdit.room.members" show="rEdit.showMembersPicker"></user-picker>
+</div>
+<div class="footer">
+  <button ng-click="rEdit.save()" ng-disable="rEdit.showOwnerPicker">Save</button>
+  <button ng-click="rEdit.cancel()">Cancel</button>
+</div>

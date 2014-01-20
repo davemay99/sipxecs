@@ -1,0 +1,13 @@
+<div jwcid="@common/Border" borderTitle="ognl:borderTitle">
+  <span jwcid="@common/TabNavigation" tabNames="ognl:{'settings', 'chatRoom'}" selectedTab="ognl:tab"/>
+  <div id="settings-content">
+    <span jwcid="@common/ErrorMsg"/>
+    <span jwcid="@RenderBlock" block="ognl:components.get(tab + 'Tab')" />
+  </div>
+  <div jwcid="settingsTab@Block">
+    <span jwcid="@plugin/InstantMessagingPage"/>
+  </div>
+  <div jwcid="chatRoomTab@Block">
+    <span jwcid="@plugin/ChatRoomMgmt"/>
+  </div>
+</div>

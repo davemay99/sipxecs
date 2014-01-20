@@ -49,8 +49,7 @@ public class OpenfireSettings extends PersistableSettings implements DeployConfi
     private static final String IDLE_TIMEOUT = "openfire-server-to-server/idle-timeout";
     private static final String ANY_CAN_CONNECT = "openfire-server-to-server/any-can-connect";
     private static final String FEDERATION_PORT = "openfire-server-to-server/port";
-    private static final String DISALLOWED_SERVERS =
-        "openfire-server-to-server/disallowed-servers";
+    private static final String DISALLOWED_SERVERS = "openfire-server-to-server/disallowed-servers";
     private static final String MESSAGE_LOG_ENABLED = "message-logging/enabled";
     private static final String BOSH_ENABLED = "http-binding/enabled";
     private static final String BOSH_PORT = "http-binding/port";
@@ -103,7 +102,8 @@ public class OpenfireSettings extends PersistableSettings implements DeployConfi
 
     public List<Address> getDisallowedServers() {
         String value = getSettingValue(DISALLOWED_SERVERS);
-        // not sure why disallowed includes ports, but keeping it as is was when i found it --Douglas
+        // not sure why disallowed includes ports, but keeping it as is was when i found it
+        // --Douglas
         return parseServerArray(value, getXmppFederationPort());
     }
 
@@ -152,14 +152,11 @@ public class OpenfireSettings extends PersistableSettings implements DeployConfi
     }
 
     /**
-     * Example:
-     * Given
-     *   foo,bar:1235,goose
-     * Return
-     *   { Address("foo", 5096), Address("bar", 1235), Address("goose", 5096) }
+     * Example: Given foo,bar:1235,goose Return { Address("foo", 5096), Address("bar", 1235),
+     * Address("goose", 5096) }
      */
     static List<Address> parseServerArray(String value, int defaultPort) {
-        if (StringUtils.isBlank(value)){
+        if (StringUtils.isBlank(value)) {
             return Collections.emptyList();
         }
         List<Address> servers = new ArrayList<Address>();

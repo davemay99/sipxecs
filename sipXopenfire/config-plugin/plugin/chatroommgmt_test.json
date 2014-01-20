@@ -1,0 +1,90 @@
+[
+  {
+    "id" : 1,
+    "name" : "room1",
+    "description" : "room1 descr",
+    "subject" : "subj room1",
+    "canChangeSubject" : true,
+    "password" : "123",
+    "public" : true,
+    "moderated" : false,
+    "membersOnly" : true,
+    "maxUsers" : 10,
+    "canInvite" : false,
+    "canDiscoverJid" : true,
+    "logEnabled" : true,
+    "rolesToBroadcast" : 7,
+    "owners" : [
+        {
+          "id" : 1,
+          "name" : "user01",
+          "displayName" : "user01 descr"
+        },
+        {
+          "id" : 2,
+          "name" : "aaa",
+          "displayName" : "user02 descr"
+        },
+        {
+          "id" : 3,
+          "name" : "abc",
+          "displayName" : "user03 descr"
+        }
+    ],
+    "members" : []
+  },
+  {
+    "id" : 2,
+    "name" : "room2",
+    "description" : "room2 descr",
+    "subject" : "subj room2",
+    "canChangeSubject" : true,
+    "password" : "123",
+    "public" : true,
+    "moderated" : true,
+    "membersOnly" : false,
+    "maxUsers" : 20,
+    "canInvite" : true,
+    "canDiscoverJid" : false,
+    "logEnabled" : false,
+    "rolesToBroadcast" : 6,
+    "owners" : [],
+    "members" : []
+  },
+  {
+    "id" : 3,
+    "name" : "room3",
+    "description" : "room3 descr",
+    "subject" : "subj room3",
+    "canChangeSubject" : false,
+    "password" : "123",
+    "public" : false,
+    "moderated" : true,
+    "membersOnly" : true,
+    "maxUsers" : 30,
+    "canInvite" : false,
+    "canDiscoverJid" : false,
+    "logEnabled" : false,
+    "rolesToBroadcast" : 4,
+    "owners" : [],
+    "members" : []
+  },
+  {
+    "id" : 4,
+    "name" : "room4",
+    "description" : "room4 descr",
+    "subject" : "subj room4",
+    "canChangeSubject" : false,
+    "password" : "123",
+    "public" : false,
+    "moderated" : false,
+    "membersOnly" : false,
+    "maxUsers" : 40,
+    "canInvite" : true,
+    "canDiscoverJid" : false,
+    "logEnabled" : true,
+    "rolesToBroadcast" : 0,
+    "owners" : [],
+    "members" : []
+  }
+]

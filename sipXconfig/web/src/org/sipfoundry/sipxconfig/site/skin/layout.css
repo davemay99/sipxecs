@@ -944,3 +944,93 @@ div.dialog
 	top: 50%;
 	border:3px solid #3F4D5D;
 }
+
+/* for dart pages */
+
+.option-panel {
+  padding: 25px;
+  float: left;
+}
+
+.option-line {
+  padding: 5px;
+}
+
+.option-label {
+  display: inline-block;
+  width: 240px;
+  vertical-align: top;
+}
+
+.option-link {
+  display: inline-block;
+  width: 240px;
+  vertical-align: top;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.option-field {
+  width: 240px;
+}
+
+.option-number-field {
+  width: 235px;
+  text-align: right;
+  padding-right: 5px;
+}
+
+.option-label-mini {
+  display: inline-block;
+  width: 50px;
+  text-align: right;
+  padding-right: 10px;
+}
+
+.option-field-mini {
+  width: 150px;
+  border: solid 1px;
+  border-color: #c0c0c2
+}
+
+.option-select {
+  width: 240px;
+  border: solid 1px;
+  border-color: #c0c0c2
+}
+
+.footer {
+  padding: 25px;
+  clear: both;
+}
+
+.column {
+  float: left;
+}
+
+.first-action {
+  width: 50px;
+  margin: 105px 10px 5px 10px;
+}
+
+.action {
+  width: 50px;
+  margin: 5px 10px 5px 10px;
+}
+
+.footer-link {
+  margin: 0px 2px 0px 2px;
+}
+
+.footer-fill {
+  margin: 0px 2px 0px 2px;
+  text-decoration: none;
+  cursor: default;
+}
+
+/* this is missing from angular, bug #330 */
+[ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .ng-hide {
+  display: none !important;
+}
+
+/* end of dart related stuff */

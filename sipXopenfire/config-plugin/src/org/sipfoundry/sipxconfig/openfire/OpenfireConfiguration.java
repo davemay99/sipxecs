@@ -66,7 +66,7 @@ public class OpenfireConfiguration implements ConfigProvider {
 
     protected static boolean applies(ConfigRequest request) {
         return request.applies(ImManager.FEATURE, LdapManager.FEATURE, LocalizationContext.FEATURE, ImBot.FEATURE,
-                LocationsManager.FEATURE);
+            LocationsManager.FEATURE);
     }
 
     protected void writeConfigFiles(ConfigManager manager, ConfigRequest request) throws IOException {
@@ -82,12 +82,13 @@ public class OpenfireConfiguration implements ConfigProvider {
             OpenfireSettings settings = m_openfire.getSettings();
             boolean consoleEnabled = (Boolean) settings.getSettingTypedValue("settings/console");
             boolean presenceEnabled = (Boolean) settings.getSettingTypedValue("settings/enable-presence")
-                    && manager.getFeatureManager().isFeatureEnabled(Rls.FEATURE);
+                && manager.getFeatureManager().isFeatureEnabled(Rls.FEATURE);
             ConfigUtils.enableCfengineClass(dir, "ofconsole.cfdat", consoleEnabled, "ofconsole");
-            
+
             Setting openfireSettings = settings.getSettings().getSetting("settings");
             String log4jFileName = "log4j-openfire.properties.part";
-            SettingUtil.writeLog4jSetting(openfireSettings, dir, log4jFileName, false, SipFoundryLayout.LOG4J_SIPFOUNDRY_KEY);
+            SettingUtil.writeLog4jSetting(openfireSettings, dir, log4jFileName, false,
+                SipFoundryLayout.LOG4J_SIPFOUNDRY_KEY);
 
             File f = new File(dir, "sipx.properties.part");
             if (!f.exists()) {
@@ -98,7 +99,7 @@ public class OpenfireConfiguration implements ConfigProvider {
                 boolean isWsEnabled = m_featureManager.isFeatureEnabled(WebSocket.FEATURE, location);
                 Address addr = m_configManager.getAddressManager().getSingleAddress(AdminContext.HTTP_ADDRESS);
                 write(wtr, presenceEnabled, isWsEnabled, location.getAddress(), m_websocket.getSettings()
-                        .getWebSocketPort(), addr.toString());
+                    .getWebSocketPort(), addr.toString());
             } finally {
                 IOUtils.closeQuietly(wtr);
             }
@@ -140,7 +141,7 @@ public class OpenfireConfiguration implements ConfigProvider {
     }
 
     private static void write(Writer wtr, boolean presence, boolean wsEnabled, String wsAddress, int wsPort,
-            String adminRestUrl) throws IOException {
+        String adminRestUrl) throws IOException {
         KeyValueConfiguration config = KeyValueConfiguration.equalsSeparated(wtr);
         config.write("openfire.presence", presence);
         if (wsEnabled) {

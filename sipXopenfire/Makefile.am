@@ -14,5 +14,3 @@ SUBDIRS = \
 	ws-plugin \
 	etc \
 	bin
-
-

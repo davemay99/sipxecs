@@ -1,0 +1,56 @@
+.option-line {
+  padding: 5px;
+  display: inline-block;
+}
+
+.option-label {
+  display: inline-block;
+  width: 150px;
+  vertical-align: top;
+  text-align: right;
+  padding-right: 10px;
+}
+
+.option-field {
+  width: 250px;
+}
+
+.option-label-mini {
+  display: inline-block;
+  width: 50px;
+  text-align: right;
+  padding-right: 10px;
+}
+
+.option-field-mini {
+  width: 150px;
+  border: solid 1px;
+}
+
+.option-number-field {
+  width: 250px;
+  text-align: right;
+  padding-right: 5px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+[ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .ng-hide {
+  display: none !important;
+}
+
+.column {
+  float: left;
+}
+
+.first-action {
+  width: 50px;
+  margin: 105px 10px 5px 10px;
+}
+
+.action {
+  width: 50px;
+  margin: 5px 10px 5px 10px;
+}

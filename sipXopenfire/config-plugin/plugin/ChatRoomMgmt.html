@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="layout.css">
+<link rel="stylesheet" href="colors.css">
+</head>
+<div id="leftNav">
+  <!-- Devmode only -->
+</div>
+<body jwcid="$content$">
+  <div jwcid="@common/Border" restricted="false" borderTitle="ognl:borderTitle">
+    <div class="help">
+      <span jwcid="@Insert" raw="true" value="message:room.help">Room Help</span>
+    </div>
+    <div rooms id="rooms" ng-app>
+      <p id="userMessage"></p>
+      <ul class="component-links" style="padding-bottom: 5px;">
+        <li>
+          <a id="add-room-link" href="#/add" ng-click='roomCtrl.selectAdd()'>
+            <div key="room.add">Add Chat Room</div>
+          </a>
+        </li>
+      </ul>
+      <table class="component">
+        <thead>
+          <tr>
+            <th style="width: 20%"><span key="roomName">Name</span></th>
+            <th><span key="roomDescr">Description</span></th>
+            <th><span key="roomSubj">Subject</span></th>
+            <th align="center" style="width: 10%"><span key="public">Public Room</span></th>
+            <th align="center" style="width: 10%"><span key="moderated">Moderated</span></th>
+            <th align="center" style="width: 10%"><span key="membersOnly">Members Only</span></th>
+            <th align="center" style="width: 10%" />
+          </tr>
+        </thead>
+        <tfoot ng-if="roomCtrl.maxPages>0" ng-cloak>
+          <tr>
+            <td colspan="7" align="center">
+              <a href="#" ng-click="roomCtrl.firstPage()">&lt;&lt;</a>
+              <a href="#" ng-click="roomCtrl.previousPage()">&lt;</a>
+              <a href="#" ng-repeat="page in roomCtrl.pages()" ng-class="roomCtrl.footerStyle(page)" ng-click="roomCtrl.loadPage(page)">{{roomCtrl.pagingDisplay(page)}}</a>
+              <a href="#" ng-click="roomCtrl.nextPage()">&gt;</a>
+              <a href="#" ng-click="roomCtrl.lastPage()">&gt;&gt;</a>
+            </td>
+          </tr>
+        </tfoot>
+        <tbody id="roomsTable" ng-cloak>
+          <tr ng-if="roomCtrl.roomCount>0" ng-repeat="room in roomCtrl.rooms">
+            <td><a href="#/room/{{room.id}}/edit" ng-click='roomCtrl.selectEdit(room)'>{{room.name}}</a></td>
+            <td>{{room.description}}</td>
+            <td>{{room.subject}}</td>
+            <td align="center"><input type="checkbox" disabled ng-checked='room.public' /></td>
+            <td align="center"><input type="checkbox" disabled ng-checked='room.moderated' /></td>
+            <td align="center"><input type="checkbox" disabled ng-checked='room.membersOnly' /></td>
+            <td align="center"><button key="roomDelete" ng-click="roomCtrl.delete(room)">Delete</button></td>
+          </tr>
+          <tr ng-if="roomCtrl.roomCount<=0">
+            <td colspan="7" align="center">
+              <span key="no.rooms">No rooms found.
+                <a href="#/add" ng-click='roomCtrl.selectAdd()'>Click here to create one.</a>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!--section>
+      <room-editor room="roomCtrl.currentRoom" show-edit="roomCtrl.showEdit" ng-class="roomCtrl.editorClass()"/>
+    </section-->
+      <div id="editor" ng-if="roomCtrl.show=='editor'" ng-cloak>
+        <div class="option-panel">
+          <div class="option-line">
+            <label for="name" class="option-label" key="edit.name">Name</label>
+            <input id="name" class="option-field" type="text" ng-model="roomCtrl.currentRoom.name" />
+            <span key="error.mandatoryName" class="user-error" ng-class="roomCtrl.nameErrorClass()">You must enter a room name</span>
+          </div>
+          <div class="option-line">
+            <label for="descr" class="option-label" key="edit.description">Description</label> <input id="descr"
+              class="option-field" type="text" ng-model="roomCtrl.currentRoom.description" />
+          </div>
+          <div class="option-line">
+            <label for="subj" class="option-label" key="edit.subject">Subject</label>
+            <input id="subj" class="option-field" type="text" ng-model="roomCtrl.currentRoom.subject" />
+          </div>
+          <div class="option-line">
+            <label for="owner" class="option-label" key="edit.owner">Owner</label>
+            <div id="owner" class="option-link">
+              <a href="#" ng-click="roomCtrl.showOwnerClicked()">({{roomCtrl.ownerName()}})</a>
+            </div>
+            <span key="error.mandatoryOwner" class="user-error" ng-class="roomCtrl.ownerErrorClass()">You must select a room owner</span>
+          </div>
+          <div class="option-line">
+            <label for="password" class="option-label" key="edit.password">Password</label>
+            <input id="password" class="option-field" type="password" ng-model="roomCtrl.currentRoom.password" />
+          </div>
+          <div class="option-line">
+            <label for="maxUsers" class="option-label" key="edit.maxUsers">Maximum occupants</label>
+            <input id="maxUsers" class="option-number-field" type="number" ng-model="roomCtrl.currentRoom.maxUsers" />
+          </div>
+          <div class="option-line">
+            <label for="private" class="option-label" key="edit.public">Public room</label>
+            <input id="private" type="checkbox" ng-model="roomCtrl.currentRoom.public" ng-checked="roomCtrl.currentRoom.public" />
+          </div>
+          <div class="option-line">
+            <label for="mod" class="option-label" key="edit.moderated">Moderated</label>
+            <input id="mod" type="checkbox" ng-model="roomCtrl.currentRoom.moderated" ng-checked="roomCtrl.currentRoom.moderated" />
+          </div>
+          <div class="option-line">
+            <label for="mo" class="option-label" key="edit.membersOnly">Members only</label>
+            <input id="mo" type="checkbox" ng-model="roomCtrl.currentRoom.membersOnly" ng-checked="roomCtrl.currentRoom.membersOnly" />
+          </div>
+          <div class="option-line">
+            <label for="members" class="option-label" key="edit.members">Members</label>
+            <div id="members" class="option-link">
+              <a href="#" ng-click="roomCtrl.showMembersClicked()">({{roomCtrl.membersNames()}})</a>
+            </div>
+          </div>
+          <div class="option-line">
+            <label for="changeSubj" class="option-label" key="edit.canChangeSubject">Allow participants to change subject</label>
+            <input id="changeSubj" type="checkbox" ng-model="roomCtrl.currentRoom.canChangeSubject" ng-checked="currentRoom.canChangeSubject" />
+          </div>
+          <div class="option-line">
+            <label for="canInvite" class="option-label" key="edit.canInvite">Can occupants invite others?</label>
+            <input id="canInvite" type="checkbox" ng-model="roomCtrl.currentRoom.canInvite" ng-checked="roomCtrl.currentRoom.canInvite" />
+          </div>
+          <div class="option-line">
+            <label for="canDiscoverJid" class="option-label" key="edit.canDiscoverJid">Can occupants' JIDs be displayed?</label>
+            <input id="canDiscoverJid" type="checkbox" ng-model="roomCtrl.currentRoom.canDiscoverJid" ng-checked="roomCtrl.currentRoom.canDiscoverJid" />
+          </div>
+          <div class="option-line">
+            <label for="log" class="option-label" key="edit.log">Log messages?</label>
+            <input id="log" type="checkbox" ng-model="roomCtrl.currentRoom.logMessages" ng-checked="roomCtrl.currentRoom.logMessages" />
+          </div>
+          <div class="option-line">
+            <label for="broadcast" class="option-label" key="edit.broadcast">Roles to broadcast presence to</label>
+            <select id="broadcast" multiple size="3" class="option-select">
+              <option value='1' ng-selected="roomCtrl.currentRoom.broadcastModerator" ng-model="roomCtrl.currentRoom.broadcastModerator">Moderator</option>
+              <option value='2' ng-selected="roomCtrl.currentRoom.broadcastParticipant" ng-model="roomCtrl.currentRoom.broadcastParticipant">Participant</option>
+              <option value='4' ng-selected="roomCtrl.currentRoom.broadcastVisitor" ng-model="roomCtrl.currentRoom.broadcastVisitor">Visitor</option>
+            </select>
+          </div>
+        </div>
+        <div class="footer">
+          <button ng-click="roomCtrl.save()">Save</button>
+          <button ng-click="roomCtrl.cancel()">Cancel</button>
+        </div>
+      </div>
+      <!-- editor -->
+      <div class="option-panel" ng-if="roomCtrl.show=='owner'" ng-cloak>
+        <!--user-picker selected="roomCtrl.currentRoom.owner" show="roomCtrl.showOwnerPicker" single-selection="true"></user-picker-->
+        <div id="user-picker-container" ng-controller="user-picker" selected="roomCtrl.currentRoom.owner" show="roomCtrl.showOwnerPicker" single-selection="true">
+          <div>
+            <div>
+              <label class="option-label-mini" for="user-filter">Filter:</label>
+              <input class="option-field-mini" type="text" ng-model="uPicker.filterName"></input>
+            </div>
+            <div id="options" class="column">
+              <select ng-model="uPicker.selectedUsers" id="user-select" size="25" class="option-select">
+                <option ng-repeat="user in uPicker.users | orderBy:'name' | filter:{name:uPicker.filterName} | filter:uPicker.isAvailable" ng-value="user" style="border: none;">{{user.prettyName()}}</option>
+              </select>
+            </div>
+          </div>
+          <div id="picker.footer">
+            <button key="edit.close" ng-click="uPicker.close()">Close</button>
+          </div>
+        </div>
+      </div>
+      <div class="option-panel" ng-if="roomCtrl.show=='members'" ng-cloak>
+        <!--user-picker selected="roomCtrl.currentRoom.members" show="roomCtrl.showMembersPicker"></user-picker-->
+        <div id="user-picker-container-multi" ng-controller="user-picker" selected="roomCtrl.currentRoom.members" show="roomCtrl.showMembersPicker">
+          <div>
+            <div>
+              <label class="option-label-mini" for="user-filter">Filter:</label>
+              <input class="option-field-mini" type="text" ng-model="uPicker.filterName"></input>
+            </div>
+            <div id="multi-options" class="column">
+              <select ng-model="uPicker.selectedUsers" id="user-select" multiple size="25" class="option-select">
+                <option ng-repeat="user in uPicker.users | orderBy:'name' | filter:{name:uPicker.filterName} | filter:uPicker.isAvailable" ng-value="user" style="border: none;">{{user.prettyName()}}</option>
+              </select>
+            </div>
+            <div id="multi-controls" class="column">
+              <button class="first-action" ng-click="uPicker.addAll()">&gt;&gt;</button>
+              <br />
+              <button class="action" ng-click="uPicker.addSelected()">--&gt;</button>
+              <br />
+              <button class="action" ng-click="uPicker.removeSelected()">&lt;--</button>
+              <br />
+              <button class="action" ng-click="uPicker.removeAll()">&lt;&lt;</button>
+              <br />
+            </div>
+            <div id="multi-selections" class="column">
+              <select ng-model="uPicker.selectedPicked" id="multi-user-select" multiple size="25" class="option-select">
+                <option ng-repeat="user in uPicker.picked | orderBy:'name'" ng-value="user" style="border: none;">{{user.prettyName()}}</option>
+              </select>
+            </div>
+          </div>
+          <div id="picker.footer">
+            <button key="edit.close" ng-click="uPicker.close()">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span id="rc" style="display: none"></span>
+    <script jwcid="@common/DartCode" src="packages/browser/dart.js"></script>
+    <!--script jwcid="@common/DartCode" src="packages/shadow_dom/shadow_dom.min.js"></script-->
+    <script jwcid="@common/DartCode" type="application/dart" src="chat_room_mgmt.dart"></script>
+  </div>
+</body>
+</html>

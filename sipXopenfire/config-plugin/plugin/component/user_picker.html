@@ -1,0 +1,27 @@
+<div id="user-picker-container">
+  <div>
+    <div>
+      <label class="option-label-mini" for="user-filter">Filter:</label>
+      <input class="option-filed-mini" type="text" ng-model="uPicker.filterName"></input>
+    </div>
+    <div id="options" class="column">
+      <select ng-model="uPicker.selectedUsers" id="user-select" ng-multiple="!uPicker.singleSelection" size="25" class="option-field" style="border: none;">
+        <option ng-repeat="user in uPicker.users | orderBy:'name' | filter:{name:uPicker.filterName} | filter:uPicker.isAvailable" ng-value="user" style="border: none;">{{user.prettyName()}}</option>
+      </select>
+    </div>
+    <div id="controls" class="column" ng-if="!uPicker.singleSelection">
+      <button class="first-action" ng-click="uPicker.addAll()">&gt;&gt;</button><br/>
+      <button class="action" ng-click="uPicker.addSelected()">--&gt;</button><br/>
+      <button class="action" ng-click="uPicker.removeSelected()">&lt;--</button><br/>
+      <button class="action" ng-click="uPicker.removeAll()">&lt;&lt;</button><br/>
+    </div>
+    <div id="selections" class="column" ng-if="!uPicker.singleSelection">
+      <select ng-model="uPicker.selectedPicked" id="user-select" multiple size="25" class="option-field" style="border: none;">
+        <option ng-repeat="user in uPicker.picked | orderBy:'name'" ng-value="user" style="border: none;">{{user.prettyName()}}</option>
+      </select>
+    </div>
+  </div>
+  <div id="footer">
+    <button key="edit.close" ng-click="uPicker.close()">Close</button>
+  </div>
+</div>

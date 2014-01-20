@@ -1,0 +1,37 @@
+[
+  {
+    "id" : 1,
+    "name" : "user01",
+    "displayName" : "user01 descr"
+  },
+  {
+    "id" : 2,
+    "name" : "aaa",
+    "displayName" : "user02 descr"
+  },
+  {
+    "id" : 3,
+    "name" : "abc",
+    "displayName" : "user03 descr"
+  },
+  {
+    "id" : 4,
+    "name" : "user04aa",
+    "displayName" : "user04 descr"
+  },
+  {
+    "id" : 5,
+    "name" : "user05ab",
+    "displayName" : "user05 descr"
+  },
+  {
+    "id" : 6,
+    "name" : "user06",
+    "displayName" : "user06 descr"
+  },
+  {
+    "id" : 7,
+    "name" : "user07",
+    "displayName" : "user07 descr"
+  }
+]

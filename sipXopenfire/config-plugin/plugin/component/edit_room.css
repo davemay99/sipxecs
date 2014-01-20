@@ -1,0 +1,45 @@
+.option-panel {
+  padding: 25px;
+  float: left;
+}
+
+.option-line {
+  padding: 5px;
+  /*display: inline-block;*/
+}
+
+.option-label {
+  display: inline-block;
+  width: 250px;
+  vertical-align: top;
+}
+
+.option-link {
+  display: inline-block;
+  width: 250px;
+  vertical-align: top;
+}
+
+.option-field {
+  width: 250px;
+}
+
+.option-number-field {
+  width: 250px;
+  text-align: right;
+  padding-right: 5px;
+}
+
+.footer {
+  padding: 25px;
+  clear: both;
+}
+
+.error {
+  color: red;
+  padding-right: 15px;
+}
+
+[ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .ng-hide {
+  display: none !important;
+}

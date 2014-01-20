@@ -8,13 +8,22 @@ cfg_PKGS = \
 	org.springframework.beans \
 	org.springframework.core \
 	org.springframework.transaction \
+	org.springframework.context \
+	org.springframework.web \
+	org.springframework.jdbc \
 	xercesImpl \
 	sipxconfig-neoconf \
 	sipxconfig-web \
 	tapestry-annotations \
 	tapestry-framework \
 	hivemind \
-	log4j
+	log4j \
+	org.restlet \
+	mongo \
+	spring-data-commons \
+	spring-data-mongodb \
+	jackson-core-asl \
+	jackson-mapper-asl
 
 plugin_JAR_PKGS = \
 	com.noelios.restlet \
@@ -40,7 +49,7 @@ plugin_JAR_RT_PKGS = \
 	com.noelios.restlet \
 	org.restlet
 
-# NOTE: this list of dependencies affects compile and runtime becasue it 
+# NOTE: this list of dependencies affects compile and runtime because it 
 # is copied into startup script so just be aware what you're affecting.
 plugin_PKGS = \
 	$(plugin_JAR_PKGS) \
