@@ -48,7 +48,6 @@ import org.sipfoundry.sipxconfig.common.UserException;
 import org.sipfoundry.sipxconfig.common.VersionInfo;
 import org.sipfoundry.sipxconfig.commserver.Location;
 import org.sipfoundry.sipxconfig.commserver.LocationsManager;
-import org.sipfoundry.sipxconfig.commserver.SipxReplicationContext;
 import org.sipfoundry.sipxconfig.logging.AuditLogContext;
 import org.sipfoundry.sipxconfig.permission.Permission;
 import org.sipfoundry.sipxconfig.phone.Phone;
@@ -196,7 +195,7 @@ public class ReplicationManagerImpl extends SipxHibernateDaoSupport implements R
     private class ReplicationWorker implements Callable<Void> {
         private final int m_startIndex;
         private final int m_page;
-        private Closure<User> m_closure = m_userClosure;
+        private final Closure<User> m_closure = m_userClosure;
 
         public ReplicationWorker(int index, int pageSize, Object arg) {
             m_startIndex = index;
@@ -487,7 +486,7 @@ public class ReplicationManagerImpl extends SipxHibernateDaoSupport implements R
         int membersCount = m_phoneContext.getPhonesInGroupCount(group.getId());
         replicateGroupWithWorker(group, AllPhoneGroupMembersReplicationWorker.class, membersCount);
     }
-    
+
     @Override
     public void replicateSpeedDialGroup(Group group) {
         int membersCount = m_coreContext.getGroupMembersCount(group.getId());
@@ -636,7 +635,7 @@ public class ReplicationManagerImpl extends SipxHibernateDaoSupport implements R
 
     /**
      * Encodes payload using Base64 and returns encoded data as string
-     * 
+     *
      * @param payload
      * @return string representing encoded data
      */

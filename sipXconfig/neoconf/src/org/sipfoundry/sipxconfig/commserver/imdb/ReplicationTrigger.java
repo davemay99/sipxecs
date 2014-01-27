@@ -27,13 +27,15 @@ import org.sipfoundry.sipxconfig.rls.Rls;
 import org.sipfoundry.sipxconfig.setting.Group;
 
 /**
- * This listener is responsible for triggering mongo replication of some entities.
- * Its most important job is to trigger replication of Replicable entities.
- * It also takes care of the replication of groups of Replicable entities such as Group or Branch.
+ * This listener is responsible for triggering mongo replication of some entities. Its most
+ * important job is to trigger replication of Replicable entities. It also takes care of the
+ * replication of groups of Replicable entities such as Group or Branch.
  */
-//PLEASE keep this class clean. Keep in mind this is not a multi-purpose listener and do not over-use.
-//If specific packages need to do specific things based on save/delete to specific objects, that logic
-//should exist with the project.
+// PLEASE keep this class clean. Keep in mind this is not a multi-purpose listener and do not
+// over-use.
+// If specific packages need to do specific things based on save/delete to specific objects, that
+// logic
+// should exist with the project.
 public class ReplicationTrigger extends SipxHibernateDaoSupport implements DaoEventListener {
     protected static final Log LOG = LogFactory.getLog(ReplicationTrigger.class);
 
@@ -46,16 +48,18 @@ public class ReplicationTrigger extends SipxHibernateDaoSupport implements DaoEv
     public void onSave(Object entity) {
         if (entity instanceof Replicable) {
             if (entity instanceof Group) {
-                //flush is necessary here in order to get consistent data
+                // flush is necessary here in order to get consistent data
                 getHibernateTemplate().flush();
-                //It is important to replicate asynch since large groups might take a while to replicate
-                //and we want to return control to the page immediately.
+                // It is important to replicate asynch since large groups might take a while to
+                // replicate
+                // and we want to return control to the page immediately.
                 replicateEntityGroup(new GroupWorker(entity));
             }
             m_replicationManager.replicateEntity((Replicable) entity);
         } else if (entity instanceof Branch) {
             getHibernateTemplate().flush();
-            //there is no file replication needed so we can trigger the branch replication directly
+            // there is no file replication needed so we can trigger the branch replication
+            // directly
             replicateEntityGroup(new BranchWorker(entity));
         }
     }
@@ -64,8 +68,9 @@ public class ReplicationTrigger extends SipxHibernateDaoSupport implements DaoEv
     public void onDelete(Object entity) {
         if (entity instanceof Replicable) {
             if (entity instanceof Group) {
-                //It is important to replicate asynch since large groups might take a while to replicate
-                //and we want to return control to the page immadiately.
+                // It is important to replicate asynch since large groups might take a while to
+                // replicate
+                // and we want to return control to the page immadiately.
                 replicateEntityGroup(new GroupDeleteWorker(entity));
             }
             m_replicationManager.removeEntity((Replicable) entity);
@@ -79,21 +84,25 @@ public class ReplicationTrigger extends SipxHibernateDaoSupport implements DaoEv
      */
     private class BranchWorker implements Runnable {
         private final Object m_entity;
+
         public BranchWorker(Object entity) {
             m_entity = entity;
         }
+
         @Override
         public void run() {
             m_replicationManager.replicateBranch((Branch) m_entity);
         }
     }
 
-    //public for use in tests
+    // public for use in tests
     public class BranchDeleteWorker implements Runnable {
         private final Object m_entity;
+
         public BranchDeleteWorker(Object entity) {
             m_entity = entity;
         }
+
         @Override
         public void run() {
             m_replicationManager.deleteBranch((Branch) m_entity);
@@ -102,9 +111,11 @@ public class ReplicationTrigger extends SipxHibernateDaoSupport implements DaoEv
 
     private class GroupWorker implements Runnable {
         private final Object m_entity;
+
         public GroupWorker(Object entity) {
             m_entity = entity;
         }
+
         @Override
         public void run() {
             generateGroup((Group) m_entity);
@@ -113,17 +124,19 @@ public class ReplicationTrigger extends SipxHibernateDaoSupport implements DaoEv
 
     private class GroupDeleteWorker implements Runnable {
         private final Object m_entity;
+
         public GroupDeleteWorker(Object entity) {
             m_entity = entity;
         }
+
         @Override
         public void run() {
             deleteGroup((Group) m_entity);
         }
     }
 
-    //ensure async replication of groups of entities
-    //can be used for groups, as well as branches (don't let the name fool you)
+    // ensure async replication of groups of entities
+    // can be used for groups, as well as branches (don't let the name fool you)
     private void replicateEntityGroup(Runnable worker) {
         if (m_executorService == null) {
             m_executorService = Executors.newSingleThreadExecutor(Executors.defaultThreadFactory());
@@ -134,22 +147,25 @@ public class ReplicationTrigger extends SipxHibernateDaoSupport implements DaoEv
     }
 
     /**
-     * Sequence of replication actions that need to be performed when a group is saved.
-     * Order of the sequence is important - files must be replicated after group members.
+     * Sequence of replication actions that need to be performed when a group is saved. Order of
+     * the sequence is important - files must be replicated after group members.
+     *
      * @param group
      */
     private void generateGroup(Group group) {
         if (User.GROUP_RESOURCE_ID.equals(group.getResource())) {
             m_replicationManager.replicateGroup(group);
             activateGroup();
-        } if (Phone.GROUP_RESOURCE_ID.equals(group.getResource())) {
+        }
+        if (Phone.GROUP_RESOURCE_ID.equals(group.getResource())) {
             m_replicationManager.replicatePhoneGroup(group);
         }
     }
 
     /**
-     * Sequence of replication actions that need to be performed when a group is deleted.
-     * Order of the sequence is important - files must be replicated after group members.
+     * Sequence of replication actions that need to be performed when a group is deleted. Order of
+     * the sequence is important - files must be replicated after group members.
+     *
      * @param group
      */
     private void deleteGroup(Group group) {
@@ -177,6 +193,7 @@ public class ReplicationTrigger extends SipxHibernateDaoSupport implements DaoEv
 
     /**
      * use only in tests
+     *
      * @param executorService
      */
     public void setExecutorService(ExecutorService executorService) {

@@ -14,6 +14,7 @@
   <bean id="pagingFeatureContextImpl" class="org.sipfoundry.sipxconfig.paging.PagingFeatureContextImpl" parent="abstractDaoImpl">
     <property name="configManager" ref="configManager" />
     <property name="pagingContext" ref="pagingContext" />
+    <property name="jdbc" ref="configJdbcTemplate"/> 
   </bean>
 
   <bean id="pagingFeatureContext" class="org.springframework.aop.framework.ProxyFactoryBean" parent="abstractDao">

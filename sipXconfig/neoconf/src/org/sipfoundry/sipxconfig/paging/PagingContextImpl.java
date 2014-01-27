@@ -53,14 +53,16 @@ public class PagingContextImpl extends SipxHibernateDaoSupport implements Paging
     private static final String VALID_SIP_REGEX = "([-_.!~*'\\(\\)=+$,;?/a-zA-Z0-9]|(%[0-9a-fA-F]{2}))+";
     private AliasManager m_aliasManager;
     private BeanWithSettingsDao<PagingSettings> m_settingsDao;
-    
+
     private FeatureManager m_featureManager;
     private JdbcTemplate m_jdbc;
 
+    @Override
     public PagingSettings getSettings() {
         return m_settingsDao.findOrCreateOne();
     }
 
+    @Override
     public void saveSettings(PagingSettings settings) {
         if (StringUtils.isBlank(settings.getSettingValue(PagingSettings.PREFIX))) {
             throw new UserException("&error.blank.prefix");
@@ -73,12 +75,14 @@ public class PagingContextImpl extends SipxHibernateDaoSupport implements Paging
         m_settingsDao.upsert(settings);
     }
 
+    @Override
     public List<PagingGroup> getPagingGroups() {
         return getHibernateTemplate().loadAll(PagingGroup.class);
     }
 
+    @Override
     public PagingGroup getPagingGroupById(Integer pagingGroupId) {
-        return (PagingGroup) getHibernateTemplate().load(PagingGroup.class, pagingGroupId);
+        return getHibernateTemplate().load(PagingGroup.class, pagingGroupId);
     }
 
     void checkAliasUse(PagingGroup group, String prefix) {
@@ -88,6 +92,7 @@ public class PagingContextImpl extends SipxHibernateDaoSupport implements Paging
         }
     }
 
+    @Override
     public void savePagingGroup(PagingGroup group) {
         checkAliasUse(group, getSettings().getPrefix());
         if (group.isNew()) {
@@ -132,10 +137,12 @@ public class PagingContextImpl extends SipxHibernateDaoSupport implements Paging
         return DataAccessUtils.intResult(count) == 0;
     }
 
+    @Override
     public void clear() {
         removeAll(PagingGroup.class);
     }
 
+    @Override
     public List< ? extends DialingRule> getDialingRules(Location location) {
         if (!m_featureManager.isFeatureEnabled(FEATURE)) {
             return null;

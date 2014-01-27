@@ -379,7 +379,7 @@ public abstract class Phone extends Device implements Replicable {
 
     @Override
     public String getEntityName() {
-        return "phone";
+        return PHONE_CONSTANT;
     }
 
     @Override
