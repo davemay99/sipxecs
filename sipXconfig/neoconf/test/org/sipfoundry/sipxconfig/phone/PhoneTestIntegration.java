@@ -28,7 +28,6 @@ import org.sipfoundry.sipxconfig.device.ModelSource;
 import org.sipfoundry.sipxconfig.setting.Group;
 import org.sipfoundry.sipxconfig.setting.SettingDao;
 import org.sipfoundry.sipxconfig.setting.ValueStorage;
-import org.sipfoundry.sipxconfig.test.IntegrationTestCase;
 import org.sipfoundry.sipxconfig.test.MongoTestIntegration;
 import org.sipfoundry.sipxconfig.test.ResultDataGrid;
 import org.sipfoundry.sipxconfig.test.TestHelper;
@@ -45,6 +44,7 @@ public class PhoneTestIntegration extends MongoTestIntegration {
     protected void onSetUpBeforeTransaction() throws Exception {
         super.onSetUpBeforeTransaction();
         clear();
+        getImdb().dropCollection("entity");
     }
 
     public void testSave() throws Exception {
@@ -79,6 +79,14 @@ public class PhoneTestIntegration extends MongoTestIntegration {
         Phone p = context.loadPhone(new Integer(1000));
         assertEquals("999123456789", p.getSerialNumber());
 
+        context.storePhone(p);
+        
+        MongoTestCaseHelper.assertObjectWithFieldsValuesPresent(getImdb().getCollection("entity"), new String[] {
+            "ent", "mac"
+        }, new String[] {
+            "phone", "999123456789"
+        });
+        
         Integer id = p.getId();
         context.deletePhone(p);
         try {
@@ -90,6 +98,12 @@ public class PhoneTestIntegration extends MongoTestIntegration {
         flush();
         assertEquals(0, db().queryForInt("select count(*) from phone"));
         assertEquals(0, db().queryForInt("select count(*) from line"));
+        
+        MongoTestCaseHelper.assertObjectWithFieldsValuesNotPresent(getImdb().getCollection("entity"), new String[] {
+            "ent", "mac"
+        }, new String[] {
+            "phone", "999123456789"
+        });
     }
 
     public void testUpdateSettings() throws Exception {
