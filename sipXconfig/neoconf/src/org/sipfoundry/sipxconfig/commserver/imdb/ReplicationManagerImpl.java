@@ -48,6 +48,7 @@ import org.sipfoundry.sipxconfig.common.UserException;
 import org.sipfoundry.sipxconfig.common.VersionInfo;
 import org.sipfoundry.sipxconfig.commserver.Location;
 import org.sipfoundry.sipxconfig.commserver.LocationsManager;
+import org.sipfoundry.sipxconfig.commserver.SipxReplicationContext;
 import org.sipfoundry.sipxconfig.logging.AuditLogContext;
 import org.sipfoundry.sipxconfig.permission.Permission;
 import org.sipfoundry.sipxconfig.phone.Phone;
@@ -165,13 +166,6 @@ public class ReplicationManagerImpl extends SipxHibernateDaoSupport implements R
             getHibernateTemplate().clear(); // clear the H session (see XX-9741)
         }
     };
-    private final Closure<Phone> m_phoneGroupClosure = new Closure<Phone>() {
-        @Override
-        public void execute(Phone phone) {
-            replicateEntity(phone);
-            getHibernateTemplate().clear(); // clear the H session (see XX-9741)
-        }
-    };
 
     @Required
     public void setLocationsManager(LocationsManager locationsManager) {
@@ -271,7 +265,7 @@ public class ReplicationManagerImpl extends SipxHibernateDaoSupport implements R
 
         @Override
         public Void call() {
-            DaoUtils.forAllPhoneGroupMembersDo(m_phoneContext, m_group, m_phoneGroupClosure, getStartIndex(),
+            DaoUtils.forAllPhoneGroupMembersDo(m_phoneContext, m_group, m_phoneClosure, getStartIndex(),
                     getPage());
             return null;
         }
