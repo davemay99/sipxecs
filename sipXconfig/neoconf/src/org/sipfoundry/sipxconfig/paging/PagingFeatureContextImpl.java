@@ -45,7 +45,7 @@ public class PagingFeatureContextImpl extends SipxHibernateDaoSupport<PagingGrou
 
     @Override
     public Collection<GlobalFeature> getAvailableGlobalFeatures(FeatureManager featureManager) {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
