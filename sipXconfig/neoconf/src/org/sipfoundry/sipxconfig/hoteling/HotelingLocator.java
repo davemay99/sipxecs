@@ -40,9 +40,8 @@ public class HotelingLocator implements BeanFactoryAware {
     public boolean isHotellingEnabled() {
         if (m_hotelingManager == null) {
             return false;
-        } else {
-            return m_hotelingManager.isActive();
         }
+        return true;
     }
 
     @Override

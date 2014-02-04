@@ -16,15 +16,8 @@
  */
 package org.sipfoundry.sipxconfig.hoteling;
 
-import org.sipfoundry.sipxconfig.common.User;
-import org.sipfoundry.sipxconfig.setting.Group;
-
+/**
+ * This is just a marker interface. It is used to "locate" the hoteling manager by HotelingLocator via spring
+ */
 public interface HotelingManager {
-
-    boolean isActive();
-
-    void generate(User user);
-
-    void generate(Group g);
-
 }
